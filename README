@@ -1,0 +1,3 @@
+"longestORF" directory contains the codes which find the orfs in a transcript
+
+"sampleORFIO" contains two sample input and output to the script longestORF.py in longestORF directory.
