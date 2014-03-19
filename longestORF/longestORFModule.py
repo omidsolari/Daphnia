@@ -34,10 +34,11 @@ def findORF(proteinRec, table = 11, secondLongestRatio = .5):
         for frame in range(3):
             length = 3 * ((len(proteinRec)-frame) // 3)
             for pro in SEQ[frame:frame+length].translate(table).split("*"):
-                L.append(pro)
+                if "M" in pro:
+                	L.append(pro[pro.find("M"):])
     L.sort(key = len)
     if len(L[-2])>secondLongestRatio*len(L[-1]):
-        return [createRecord(L[-2],proteinRec),createRecord(L[-1],proteinRec)]
+        return [createRecord(L[-1],proteinRec),createRecord(L[-2],proteinRec)]
     else:
         return createRecord(L[-1],proteinRec)
 

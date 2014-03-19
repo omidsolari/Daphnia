@@ -2,3 +2,7 @@ longestORF.py is the script that outputs a multi-fasta file containing the trans
 longest orfs in the input.
 
 longestORFModule.py is the module containing the functions used in the script above
+
+
+
+*** bug description : ORF always starts with M. It's a bug in Bippython tutorial.
