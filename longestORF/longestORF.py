@@ -16,15 +16,15 @@ import sys
 print "1. Finding ORFs"
 
 ORF = []
+output = open( sys.argv[1][:sys.argv[1].rfind('.')] + "ORF" + sys.argv[1][sys.argv[1].rfind('.'):], "w")
 for seq in SeqIO.parse(sys.argv[1],"fasta"):
     orfs = lOM.findORF(seq)
     if len(orfs) == 2:
-        [ORF.append(item) for item in orfs]
-    else:
-        ORF.append(orfs)
+        [SeqIO.write(item, output, "fasta") for item in orfs]
+    elif len(orfs) == 1:
+        SeqIO.write(orfs, output, "fasta")
 
-print "2. Writing Output"
-
-output = open( sys.argv[1][:sys.argv[1].rfind('.')] + "ORF" + sys.argv[1][sys.argv[1].rfind('.'):], "w")
-SeqIO.write(ORF, output, "fasta")
 output.close()
+
+print "2. Output: "
+print sys.argv[1][:sys.argv[1].rfind('.')] + "ORF" + sys.argv[1][sys.argv[1].rfind('.'):]

@@ -15,7 +15,7 @@ def createRecord(seq, parentRec):
                  newRec.name = parentRec.name, newRec.description = parentRec.description,
                  newRec.dbxrefs = parentRec.dbxrefs """
     newRec = SeqRecord(seq)
-    newRec.id = parentRec.id
+    newRec.id = str(parentRec.id)
     newRec.name = parentRec.name
     newRec.description = parentRec.description
     newRec.dbxrefs = parentRec.dbxrefs
@@ -23,7 +23,7 @@ def createRecord(seq, parentRec):
     return newRec
 
 
-def findORF(proteinRec, table = 11, secondLongestRatio = .5):
+def findORF(proteinRec, table = 11, secondLongestRatio = .5, minLen = 10):
     """ inputs: protein <SeqRecord object>
                 table <int> translation table number, default value = 11
                 secondLongestRatio <float> ratio of the second longest ORF, default value = .5
@@ -35,11 +35,19 @@ def findORF(proteinRec, table = 11, secondLongestRatio = .5):
             length = 3 * ((len(proteinRec)-frame) // 3)
             for pro in SEQ[frame:frame+length].translate(table).split("*"):
                 if "M" in pro:
-                	L.append(pro[pro.find("M"):])
+                	tmp = pro[pro.find("M"):]
+                	if len(tmp) > minLen:
+                		L.append(tmp)
     L.sort(key = len)
-    if len(L[-2])>secondLongestRatio*len(L[-1]):
-        return [createRecord(L[-1],proteinRec),createRecord(L[-2],proteinRec)]
+    #print len(L)
+    if len(L) > 1:
+    	if len(L[-2])>secondLongestRatio*len(L[-1]):
+        	return [createRecord(L[-1],proteinRec),createRecord(L[-2],proteinRec)]
+    	else:
+        	return createRecord(L[-1],proteinRec)
+    elif len(L) == 1:
+    	return createRecord(L[-1],proteinRec)
     else:
-        return createRecord(L[-1],proteinRec)
+    	return L
 
 
