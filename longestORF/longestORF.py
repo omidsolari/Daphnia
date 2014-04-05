@@ -19,10 +19,10 @@ ORF = []
 output = open( sys.argv[1][:sys.argv[1].rfind('.')] + "ORF" + sys.argv[1][sys.argv[1].rfind('.'):], "w")
 for seq in SeqIO.parse(sys.argv[1],"fasta"):
     orfs = lOM.findORF(seq)
-    if len(orfs) == 2:
-        [SeqIO.write(item, output, "fasta") for item in orfs]
-    elif len(orfs) == 1:
-        SeqIO.write(orfs, output, "fasta")
+    if orfs[1] > 1:
+        [SeqIO.write(item, output, "fasta") for item in orfs[0]]
+    elif orfs[1] == 1:
+        SeqIO.write(orfs[0], output, "fasta")
 
 output.close()
 
