@@ -42,7 +42,7 @@ def findORF(proteinRec, table = 11, secondLongestRatio = .5, minLen = 10):
                         c = c + 1
     L.sort(key = len)
     #print len(L)
-    print c
+    #print c
     if c > 1:
     	if len(L[-2])>secondLongestRatio*len(L[-1]):
         	return [[createRecord(L[-1],proteinRec),createRecord(L[-2],proteinRec)],c]
