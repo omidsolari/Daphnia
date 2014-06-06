@@ -13,13 +13,12 @@ def findGroup(goodProtDict, groupID, groupProt):
                 groupID < string >
                 groupProt < list > the proteins belonging to the group with groupID
         output: groupSeq < list [Seq Object] > """
-    tmpFile = open('tmpProt.fasta', "w")
+    tmpFile = open(groupID + '.fasta', "w")
     for prot in groupProt:
         SeqIO.write(goodProtDict[prot],tmpFile,"fasta")
     tmpFile.close()
-    os.system("./muscle -in tmpProt.fasta -fastaout tmpMuscle.fasta")
-    os.system("./raxmlHPC-PTHREADS-AVX -m PROTGAMMAWAG -p 12345 -s tmpMuscle.fasta -T 4 -n " + groupID + ".T")
-    os.system("rm tmpProt.fasta tmpMuscle.fasta")
+    os.system("./muscle -in " + groupID + ".fasta -fastaout " + groupID + ".align.fasta")
+    os.system("./raxmlHPC-PTHREADS-AVX -m PROTGAMMAWAG -p 12345 -s " + groupID +".align.fasta -T 4 -n " + groupID + ".T")
 
 
 def muscleRAxML(goodProtDict, groupDict):
